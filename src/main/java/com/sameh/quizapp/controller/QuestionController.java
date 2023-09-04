@@ -17,12 +17,12 @@ public class QuestionController {
     QuestionService questionService;
 
     @GetMapping("allQuestions")
-    public ResponseEntity<List<Question>> getAllQuestion(){
+    public ResponseEntity<List<Question>> getAllQuestion() throws Exception {
         return questionService.getAllQuestions();
     }
 
     @GetMapping("category/{category}")
-    public ResponseEntity<List<Question>> getQuestionsByCategory(@PathVariable String category){
+    public ResponseEntity<List<Question>> getQuestionsByCategory(@PathVariable String category) throws Exception {
         return questionService.getQuestionsByCategory(category);
     }
 
@@ -31,14 +31,14 @@ public class QuestionController {
         return questionService.addQuestion(question);
     }
 
-    @PutMapping("update")
-    public String updateQuestion(@RequestBody Question question){
-        return questionService.updateQuestion(question);
+    @PutMapping("update/{id}")
+    public String updateQuestion(@PathVariable Integer id , @RequestBody Question question){
+        return questionService.updateQuestion(id,question);
     }
 
-    @DeleteMapping("delete")
-    public String deleteQuestion(@RequestBody Question question){
-        return questionService.deleteQuestion(question);
+    @DeleteMapping("delete/{id}")
+    public String deleteQuestion(@PathVariable Integer id){
+        return questionService.deleteQuestion(id);
     }
 
 }
