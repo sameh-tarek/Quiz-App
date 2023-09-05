@@ -2,7 +2,6 @@ package com.sameh.quizapp.controller;
 
 import com.sameh.quizapp.model.Question;
 import com.sameh.quizapp.service.QuestionService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +13,7 @@ import java.util.List;
 public class QuestionController {
 
     @Autowired
-    QuestionService questionService;
+    private QuestionService questionService;
 
     @GetMapping("allQuestions")
     public ResponseEntity<List<Question>> getAllQuestion(){
@@ -31,14 +30,14 @@ public class QuestionController {
         return questionService.addQuestion(question);
     }
 
-    @PutMapping("update")
-    public String updateQuestion(@RequestBody Question question){
-        return questionService.updateQuestion(question);
+    @PutMapping("update/{id}")
+    public String updateQuestion(@PathVariable Integer id, @RequestBody Question question){
+        return questionService.updateQuestion(id,question);
     }
 
-    @DeleteMapping("delete")
-    public String deleteQuestion(@RequestBody Question question){
-        return questionService.deleteQuestion(question);
+    @DeleteMapping("delete/{id}")
+    public String deleteQuestion(@PathVariable Integer id ){
+        return questionService.deleteQuestion(id);
     }
 
 }

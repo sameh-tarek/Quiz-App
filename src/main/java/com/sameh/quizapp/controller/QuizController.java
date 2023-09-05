@@ -1,6 +1,5 @@
 package com.sameh.quizapp.controller;
 
-import com.sameh.quizapp.model.Question;
 import com.sameh.quizapp.model.QuestionWrapper;
 import com.sameh.quizapp.model.Response;
 import com.sameh.quizapp.service.QuizService;
