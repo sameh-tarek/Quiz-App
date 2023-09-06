@@ -22,19 +22,16 @@ public class QuizController {
 
     @PostMapping("create")
     public ResponseEntity<String> createQuiz(@RequestParam String category, @RequestParam int numQ, @RequestParam String title){
-        logger.info("============= inside createQuiz method =============");
         return quizService.createQuiz(category,numQ,title);
     }
 
     @GetMapping("get/{id}")
     public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(@PathVariable Integer id){
-        logger.info("=========== inside getQuizQuestions method =============");
         return quizService.getQuizQuestions(id);
     }
 
     @PostMapping("submit/{id}")
     public ResponseEntity<Integer> submitQuiz(@PathVariable Integer id , @RequestBody List<Response> responses){
-        logger.info("========== inside submitQuiz method =============");
         return quizService.calculateResult(id, responses);
     }
 }

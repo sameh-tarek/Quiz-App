@@ -2,7 +2,8 @@ package com.sameh.quizapp.service.impl;
 
 import com.sameh.quizapp.dao.QuestionDao;
 import com.sameh.quizapp.dao.QuizDao;
-import com.sameh.quizapp.exception.ApiNotFoundException;
+import com.sameh.quizapp.exception.MissingServletRequestParameterException;
+import com.sameh.quizapp.exception.RecordNotFoundException;
 import com.sameh.quizapp.model.Question;
 import com.sameh.quizapp.model.QuestionWrapper;
 import com.sameh.quizapp.model.Quiz;
@@ -25,28 +26,30 @@ public class QuizServiceImpl implements QuizService {
     private static final Logger logger = LoggerFactory.getLogger(QuizServiceImpl.class);
 
     @Autowired
-    QuizDao quizDao;
+    private QuizDao quizDao;
+
     @Autowired
-    QuestionDao questionDao;
+    private QuestionDao questionDao;
 
     @Override
     public ResponseEntity<String> createQuiz(String category, int numQ, String title) {
-        logger.info("=========== inside createQuiz method ==========");
-        if(numQ<=0){
-            logger.warn("Cannot create quiz, number of questions must be greater than 0");
-            throw new ApiNotFoundException("A quiz must contain one or more questions");
+        logger.info("User wants to create new Quiz with category {}, number of questions is {} and the title of the Quiz is {} ", category, numQ, title);
+        if (numQ <= 0) {
+            logger.warn("A quiz must contain one or more questions");
+            throw new RecordNotFoundException("A quiz must contain one or more questions");
         }
 
         List<Question> questions = questionDao.findRandomQuestionsByCategory(category, numQ);
-        if(questions.isEmpty()){
-            logger.error("Cannot create quiz, no questions found in category: {}", category);
-            throw new ApiNotFoundException("Not Found Questions in this category: "+category);
+        if (questions.isEmpty()) {
+            logger.warn("No questions found in this category: {}", category);
+            throw new RecordNotFoundException("No questions found in this category: " + category);
         }
 
+        logger.info("Found {} questions for category: {} and this is questions: {}", questions.size(), category, questions);
 
-        if(questions.size()<numQ){
-            logger.error("Cannot create quiz, there are only {} questions in {} category and you choose {}", questions.size(), category, numQ);
-            throw new ApiNotFoundException("There are only "+ questions.size() +" questions in "+ category +" category and you choose "+numQ);
+        if (questions.size() < numQ) {
+            logger.warn("There are only {} questions in {} category and you choose {}",questions.size(), category, numQ );;
+            throw new RecordNotFoundException("There are only " + questions.size() + " questions in " + category + " category and you choose " + numQ);
         }
 
         Quiz quiz = new Quiz();
@@ -54,49 +57,57 @@ public class QuizServiceImpl implements QuizService {
         quiz.setQuestions(questions);
         quizDao.save(quiz);
 
-        logger.info("Quiz created successfully");
-        return new ResponseEntity<>("success", HttpStatus.CREATED);
+        logger.info("Created quiz with id: {}", quiz.getId());
+        logger.info("This the Quiz Questions {}", quiz.getQuestions());
+        return ResponseEntity.status(HttpStatus.CREATED).body("success");
     }
 
     @Override
     public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(Integer id) {
-        logger.info("========== inside getQuizQuestions method =========");
+        logger.info("User wants to get Quiz  with id {}",id);
         Optional<Quiz> quiz = quizDao.findById(id);
-        if(quiz.isEmpty()){
-            logger.warn("Cannot get quiz, quiz with id: {} not found", id);
-            throw new ApiNotFoundException("not found quiz with this id: "+id);
+        if (quiz.isEmpty()) {
+            logger.warn("Quiz with id {} not found",id);
+            throw new RecordNotFoundException("Quiz with id " + id + " not found");
         }
 
+        logger.info("Fetching questions for quiz with id: {}", id);
         List<Question> questionsFromDb = quiz.get().getQuestions();
         List<QuestionWrapper> questionsForUsers = new ArrayList<>();
-        for (Question q : questionsFromDb){
-            QuestionWrapper qw = new QuestionWrapper(q.getId(),q.getQuestionTitle(),q.getOption1(),q.getOption2(),q.getOption3(),q.getOption4());
+        for (Question q : questionsFromDb) {
+            QuestionWrapper qw = new QuestionWrapper(q.getId(), q.getQuestionTitle(), q.getOption1(), q.getOption2(), q.getOption3(), q.getOption4());
             questionsForUsers.add(qw);
         }
-        return new ResponseEntity<>(questionsForUsers, HttpStatus.OK);
+        logger.info("Quiz Questions : {}",questionsForUsers);
+        return ResponseEntity.ok(questionsForUsers);
     }
 
     @Override
     public ResponseEntity<Integer> calculateResult(Integer id, List<Response> responses) {
-        logger.info("========== inside calculateResult method =========");
-
+        logger.info("User wants to submit Quiz with id {} and his responses {} to get the Results ",id,responses);
         Optional<Quiz> quiz = quizDao.findById(id);
-        if(quiz.isEmpty()){
-            logger.warn("Cannot calculate results, quiz with id: {} not found", id);
-            throw new ApiNotFoundException("not found quiz with this id: "+id);
+        if (quiz.isEmpty()) {
+            logger.warn("Quiz with id {} not found",id);
+            throw new RecordNotFoundException("Quiz with id " + id + " not found");
         }
 
+        logger.info("Calculating result for quiz with id: {}", id);
         List<Question> questions = quiz.get().getQuestions();
         int right = 0;
         int i = 0;
-        for(Response response : responses){
-            if(response.getResponse().equals(questions.get(i).getRightAnswer())){
+        for (Response response : responses) {
+            if (response.getResponse().equals(questions.get(i).getRightAnswer())) {
                 right++;
             }
             i++;
         }
 
-        logger.info("Quiz submitted successfully and the result is {}",right);
+        if (responses.size() != questions.size()) {
+            logger.warn("Missing Some responses");
+            throw new MissingServletRequestParameterException("The number of responses must match the number of questions.");
+        }
+
+        logger.info("Result for quiz with id: {} is: {}", id, right);
         return new ResponseEntity<>(right, HttpStatus.OK);
     }
 }
