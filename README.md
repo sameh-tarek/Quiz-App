@@ -1,5 +1,5 @@
 # Quiz-App
-Simple Quiz App API with Spring Boot (JPA , mysql)
+Simple Quiz App API with Spring Boot (JPA , mysql )
 
 # features
 
@@ -42,14 +42,8 @@ The question has been added in the database
 ![Screenshot (139)](https://github.com/Sameh1Tarek/Quiz-App/assets/108232157/763a50d7-f953-4354-af8d-743f9d78811e)
 
 # database
-1- question table
-![Screenshot (140)](https://github.com/Sameh1Tarek/Quiz-App/assets/108232157/e660190d-470e-4ccb-b4e7-3958123e1a45)
+![Screenshot (163)](https://github.com/Sameh1Tarek/Quiz-App/assets/108232157/b769be35-53fc-48a0-9452-092599109da2)
 
-2- quiz table
-![Screenshot (141)](https://github.com/Sameh1Tarek/Quiz-App/assets/108232157/2944df98-7b3e-4f1c-932e-21ed8bb3ec59)
-
-3- quiz_questions table
-![Screenshot (142)](https://github.com/Sameh1Tarek/Quiz-App/assets/108232157/c1744225-ed52-4db2-8574-94b8b506f5e5)
 
 
 
