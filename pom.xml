@@ -14,7 +14,7 @@
 	<name>quizapp</name>
 	<description>Sameh Quiz App</description>
 	<properties>
-		<java.version>20</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -36,11 +36,19 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-    </dependencies>
+		<dependency>
+			<artifactId>unlogged-sdk</artifactId>
+			<groupId>video.bug</groupId>
+			<version>0.0.26</version>
+		</dependency>    </dependencies>
 
 	<build>
 		<plugins>
@@ -49,6 +57,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+
 	</build>
 
 </project>
