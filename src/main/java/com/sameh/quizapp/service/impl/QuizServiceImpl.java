@@ -48,7 +48,8 @@ public class QuizServiceImpl implements QuizService {
         logger.info("Found {} questions for category: {} and this is questions: {}", questions.size(), category, questions);
 
         if (questions.size() < numQ) {
-            logger.warn("There are only {} questions in {} category and you choose {}",questions.size(), category, numQ );;
+            logger.warn("There are only {} questions in {} category and you choose {}", questions.size(), category, numQ);
+            ;
             throw new RecordNotFoundException("There are only " + questions.size() + " questions in " + category + " category and you choose " + numQ);
         }
 
@@ -64,10 +65,10 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(Integer id) {
-        logger.info("User wants to get Quiz  with id {}",id);
+        logger.info("User wants to get Quiz  with id {}", id);
         Optional<Quiz> quiz = quizDao.findById(id);
         if (quiz.isEmpty()) {
-            logger.warn("Quiz with id {} not found",id);
+            logger.warn("Quiz with id {} not found", id);
             throw new RecordNotFoundException("Quiz with id " + id + " not found");
         }
 
@@ -78,16 +79,16 @@ public class QuizServiceImpl implements QuizService {
             QuestionWrapper qw = new QuestionWrapper(q.getId(), q.getQuestionTitle(), q.getOption1(), q.getOption2(), q.getOption3(), q.getOption4());
             questionsForUsers.add(qw);
         }
-        logger.info("Quiz Questions : {}",questionsForUsers);
+        logger.info("Quiz Questions : {}", questionsForUsers);
         return ResponseEntity.ok(questionsForUsers);
     }
 
     @Override
     public ResponseEntity<Integer> calculateResult(Integer id, List<Response> responses) {
-        logger.info("User wants to submit Quiz with id {} and his responses {} to get the Results ",id,responses);
+        logger.info("User wants to submit Quiz with id {} and his responses {} to get the Results ", id, responses);
         Optional<Quiz> quiz = quizDao.findById(id);
         if (quiz.isEmpty()) {
-            logger.warn("Quiz with id {} not found",id);
+            logger.warn("Quiz with id {} not found", id);
             throw new RecordNotFoundException("Quiz with id " + id + " not found");
         }
 

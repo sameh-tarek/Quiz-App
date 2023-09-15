@@ -7,19 +7,18 @@ import com.sameh.quizapp.exception.NoUpdateFoundException;
 import com.sameh.quizapp.exception.RecordNotFoundException;
 import com.sameh.quizapp.model.Question;
 import com.sameh.quizapp.service.QuestionService;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class QuestionServiceImpl implements QuestionService {
 
     private static final Logger logger = LoggerFactory.getLogger(QuestionServiceImpl.class);
@@ -96,7 +95,7 @@ public class QuestionServiceImpl implements QuestionService {
         Optional<Question> existingQuestion = questionDao.findById(id);
         if(existingQuestion.isEmpty()){
             logger.warn("No question found with ID: {}", id);
-           throw  new RecordNotFoundException("No question found with ID: {}" + id);
+            throw  new RecordNotFoundException("No question found with ID: {}" + id);
         }
 
         logger.info("This is the question he want to delete it {}", existingQuestion);
