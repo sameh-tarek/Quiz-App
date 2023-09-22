@@ -41,9 +41,12 @@ The question has been added in the database
 # Example with postman :
 ![Screenshot (139)](https://github.com/Sameh1Tarek/Quiz-App/assets/108232157/763a50d7-f953-4354-af8d-743f9d78811e)
 
-# database
+# database 
 ![Screenshot (163)](https://github.com/Sameh1Tarek/Quiz-App/assets/108232157/b769be35-53fc-48a0-9452-092599109da2)
 
+# project Class Diagram
+
+![quizapp](https://github.com/Sameh1Tarek/Quiz-App/assets/108232157/134b3c7a-4ecc-49d0-9674-a91973c3d20d)
 
 
 
