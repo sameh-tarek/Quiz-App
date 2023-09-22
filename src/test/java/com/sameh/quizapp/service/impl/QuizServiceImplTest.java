@@ -1,7 +1,7 @@
 package com.sameh.quizapp.service.impl;
 
-import com.sameh.quizapp.dao.QuestionDao;
-import com.sameh.quizapp.dao.QuizDao;
+import com.sameh.quizapp.Repository.QuestionRepository;
+import com.sameh.quizapp.Repository.QuizRepository;
 import com.sameh.quizapp.exception.MissingServletRequestParameterException;
 import com.sameh.quizapp.exception.RecordNotFoundException;
 import com.sameh.quizapp.model.Question;
@@ -26,10 +26,10 @@ import static org.mockito.Mockito.*;
 class QuizServiceImplTest {
 
     @Mock
-    private QuizDao quizDao;
+    private QuizRepository quizRepository;
 
     @Mock
-    private QuestionDao questionDao;
+    private QuestionRepository questionRepository;
 
     @InjectMocks
     private QuizServiceImpl quizService;
@@ -50,8 +50,8 @@ class QuizServiceImplTest {
         questions.add(new Question());
         questions.add(new Question());
 
-        when(questionDao.findRandomQuestionsByCategory(category, numQ)).thenReturn(questions);
-        when(quizDao.save(new Quiz())).thenReturn(new Quiz());
+        when(questionRepository.findRandomQuestionsByCategory(category, numQ)).thenReturn(questions);
+        when(quizRepository.save(new Quiz())).thenReturn(new Quiz());
 
         // Act
         ResponseEntity<String> response = quizService.createQuiz(category, numQ, title);
@@ -81,7 +81,7 @@ class QuizServiceImplTest {
         int numQ = 2;
         String title = "Test Quiz";
 
-        when(questionDao.findRandomQuestionsByCategory(category, numQ)).thenReturn(new ArrayList<>());
+        when(questionRepository.findRandomQuestionsByCategory(category, numQ)).thenReturn(new ArrayList<>());
 
         // Act & Assert
         RecordNotFoundException exception = assertThrows(RecordNotFoundException.class,
@@ -99,7 +99,7 @@ class QuizServiceImplTest {
         List<Question> questions = new ArrayList<>();
         questions.add(new Question());
 
-        when(questionDao.findRandomQuestionsByCategory(category, numQ)).thenReturn(questions);
+        when(questionRepository.findRandomQuestionsByCategory(category, numQ)).thenReturn(questions);
 
         // Act & Assert
         RecordNotFoundException exception = assertThrows(RecordNotFoundException.class,
@@ -117,7 +117,7 @@ class QuizServiceImplTest {
         Quiz quiz = new Quiz();
         quiz.setQuestions(questionsFromDb);
 
-        when(quizDao.findById(id)).thenReturn(Optional.of(quiz));
+        when(quizRepository.findById(id)).thenReturn(Optional.of(quiz));
 
         ResponseEntity<List<QuestionWrapper>> response = quizService.getQuizQuestions(id);
 
@@ -129,7 +129,7 @@ class QuizServiceImplTest {
     public void getQuizQuestionsTestWithNoQuiz() {
         Integer id = 1;
 
-        when(quizDao.findById(id)).thenReturn(Optional.empty());
+        when(quizRepository.findById(id)).thenReturn(Optional.empty());
 
         assertThrows(RecordNotFoundException.class, () -> quizService.getQuizQuestions(id));
     }
@@ -137,7 +137,7 @@ class QuizServiceImplTest {
     public void calculateResultTestWithNoQuiz() {
         Integer id = 1;
 
-        when(quizDao.findById(id)).thenReturn(Optional.empty());
+        when(quizRepository.findById(id)).thenReturn(Optional.empty());
 
         assertThrows(RecordNotFoundException.class, () -> quizService.calculateResult(id, new ArrayList<>()));
     }
@@ -152,7 +152,7 @@ class QuizServiceImplTest {
         Quiz quiz = new Quiz();
         quiz.setQuestions(questions);
 
-        when(quizDao.findById(id)).thenReturn(Optional.of(quiz));
+        when(quizRepository.findById(id)).thenReturn(Optional.of(quiz));
 
         assertThrows(MissingServletRequestParameterException.class, () -> quizService.calculateResult(id, new ArrayList<>()));
     }
@@ -180,7 +180,7 @@ class QuizServiceImplTest {
         Quiz quiz = new Quiz();
         quiz.setQuestions(questions);
 
-        when(quizDao.findById(id)).thenReturn(Optional.of(quiz));
+        when(quizRepository.findById(id)).thenReturn(Optional.of(quiz));
 
         ResponseEntity<Integer> result = quizService.calculateResult(id, responses);
 
@@ -210,7 +210,7 @@ class QuizServiceImplTest {
         Quiz quiz = new Quiz();
         quiz.setQuestions(questions);
 
-        when(quizDao.findById(id)).thenReturn(Optional.of(quiz));
+        when(quizRepository.findById(id)).thenReturn(Optional.of(quiz));
 
         ResponseEntity<Integer> result = quizService.calculateResult(id, responses);
 

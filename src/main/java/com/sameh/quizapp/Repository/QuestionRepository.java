@@ -1,4 +1,4 @@
-package com.sameh.quizapp.dao;
+package com.sameh.quizapp.Repository;
 
 import com.sameh.quizapp.model.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface QuestionDao extends
+public interface QuestionRepository extends
         JpaRepository<Question,Integer>{
     List<Question> findByCategory(String category);
     List<Question> findByQuestionTitle(String questionTitle);

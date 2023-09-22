@@ -1,4 +1,4 @@
-package com.sameh.quizapp.dao;
+package com.sameh.quizapp.Repository;
 
 import com.sameh.quizapp.model.Question;
 import org.junit.jupiter.api.Test;
@@ -11,10 +11,10 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
-class QuestionDaoTest {
+class QuestionRepositoryTest {
 
     @Autowired
-    private QuestionDao underTest;
+    private QuestionRepository underTest;
 
     @Test
     void findByCategory() {

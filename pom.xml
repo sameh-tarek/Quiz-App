@@ -48,7 +48,8 @@
 			<artifactId>unlogged-sdk</artifactId>
 			<groupId>video.bug</groupId>
 			<version>0.0.26</version>
-		</dependency>    </dependencies>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>
@@ -57,7 +58,5 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-
 	</build>
-
 </project>

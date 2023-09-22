@@ -1,18 +1,19 @@
 package com.sameh.quizapp.service;
 
+import com.sameh.quizapp.dto.QuestionDto;
 import com.sameh.quizapp.model.Question;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface QuestionService {
-    ResponseEntity<List<Question>> getAllQuestions();
+    ResponseEntity<List<QuestionDto>> getAllQuestions();
 
-    ResponseEntity<List<Question>> getQuestionsByCategory(String category);
+    ResponseEntity<List<QuestionDto>> getQuestionsByCategory(String category);
 
-    ResponseEntity<String> addQuestion(Question question);
+    ResponseEntity<String> addQuestion(QuestionDto questionDto);
 
-    String updateQuestion(Integer id, Question question);
+    String updateQuestion(Integer id, QuestionDto questionDto);
 
     String deleteQuestion(Integer id);
 }

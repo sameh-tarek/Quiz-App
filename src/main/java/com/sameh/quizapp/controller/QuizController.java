@@ -1,5 +1,7 @@
 package com.sameh.quizapp.controller;
 
+import com.sameh.quizapp.dto.QuestionWrapperDto;
+import com.sameh.quizapp.dto.ResponseDto;
 import com.sameh.quizapp.model.QuestionWrapper;
 import com.sameh.quizapp.model.Response;
 import com.sameh.quizapp.service.QuizService;
@@ -22,12 +24,12 @@ public class QuizController {
     }
 
     @GetMapping("get/{id}")
-    public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(@PathVariable Integer id){
+    public ResponseEntity<List<QuestionWrapperDto>> getQuizQuestions(@PathVariable Integer id){
         return quizService.getQuizQuestions(id);
     }
 
     @PostMapping("submit/{id}")
-    public ResponseEntity<Integer> submitQuiz(@PathVariable Integer id , @RequestBody List<Response> responses){
-        return quizService.calculateResult(id, responses);
+    public ResponseEntity<Integer> submitQuiz(@PathVariable Integer id , @RequestBody List<ResponseDto> responsesDtos){
+        return quizService.calculateResult(id, responsesDtos);
     }
 }
