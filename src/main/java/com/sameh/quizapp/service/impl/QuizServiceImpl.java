@@ -1,9 +1,12 @@
 package com.sameh.quizapp.service.impl;
 
-import com.sameh.quizapp.dao.QuestionDao;
-import com.sameh.quizapp.dao.QuizDao;
+import com.sameh.quizapp.Repository.QuestionRepository;
+import com.sameh.quizapp.Repository.QuizRepository;
+import com.sameh.quizapp.dto.QuestionWrapperDto;
+import com.sameh.quizapp.dto.ResponseDto;
 import com.sameh.quizapp.exception.MissingServletRequestParameterException;
 import com.sameh.quizapp.exception.RecordNotFoundException;
+import com.sameh.quizapp.mappper.QuestionWrapperMapper;
 import com.sameh.quizapp.model.Question;
 import com.sameh.quizapp.model.QuestionWrapper;
 import com.sameh.quizapp.model.Quiz;
@@ -26,10 +29,13 @@ public class QuizServiceImpl implements QuizService {
     private static final Logger logger = LoggerFactory.getLogger(QuizServiceImpl.class);
 
     @Autowired
-    private QuizDao quizDao;
+    private QuizRepository quizRepository;
 
     @Autowired
-    private QuestionDao questionDao;
+    private QuestionRepository questionRepository;
+
+    @Autowired
+    private QuestionWrapperMapper questionWrapperMapper;
 
     @Override
     public ResponseEntity<String> createQuiz(String category, int numQ, String title) {
@@ -39,7 +45,7 @@ public class QuizServiceImpl implements QuizService {
             throw new RecordNotFoundException("A quiz must contain one or more questions");
         }
 
-        List<Question> questions = questionDao.findRandomQuestionsByCategory(category, numQ);
+        List<Question> questions = questionRepository.findRandomQuestionsByCategory(category, numQ);
         if (questions.isEmpty()) {
             logger.warn("No questions found in this category: {}", category);
             throw new RecordNotFoundException("No questions found in this category: " + category);
@@ -56,7 +62,7 @@ public class QuizServiceImpl implements QuizService {
         Quiz quiz = new Quiz();
         quiz.setTitle(title);
         quiz.setQuestions(questions);
-        quizDao.save(quiz);
+        quizRepository.save(quiz);
 
         logger.info("Created quiz with id: {}", quiz.getId());
         logger.info("This the Quiz Questions {}", quiz.getQuestions());
@@ -64,9 +70,9 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(Integer id) {
+    public ResponseEntity<List<QuestionWrapperDto>> getQuizQuestions(Integer id) {
         logger.info("User wants to get Quiz  with id {}", id);
-        Optional<Quiz> quiz = quizDao.findById(id);
+        Optional<Quiz> quiz = quizRepository.findById(id);
         if (quiz.isEmpty()) {
             logger.warn("Quiz with id {} not found", id);
             throw new RecordNotFoundException("Quiz with id " + id + " not found");
@@ -79,14 +85,22 @@ public class QuizServiceImpl implements QuizService {
             QuestionWrapper qw = new QuestionWrapper(q.getId(), q.getQuestionTitle(), q.getOption1(), q.getOption2(), q.getOption3(), q.getOption4());
             questionsForUsers.add(qw);
         }
-        logger.info("Quiz Questions : {}", questionsForUsers);
-        return ResponseEntity.ok(questionsForUsers);
+
+        List<QuestionWrapperDto> questionsForUsersDtos = new ArrayList<>();
+        for (QuestionWrapper q : questionsForUsers) {
+            QuestionWrapperDto questionWrapperDto = questionWrapperMapper.mapToDto(q);
+            questionsForUsersDtos.add(questionWrapperDto);
+        }
+
+
+        logger.info("Quiz Questions : {}", questionsForUsersDtos);
+        return ResponseEntity.ok(questionsForUsersDtos);
     }
 
     @Override
-    public ResponseEntity<Integer> calculateResult(Integer id, List<Response> responses) {
-        logger.info("User wants to submit Quiz with id {} and his responses {} to get the Results ", id, responses);
-        Optional<Quiz> quiz = quizDao.findById(id);
+    public ResponseEntity<Integer> calculateResult(Integer id, List<ResponseDto> responsesDtos) {
+        logger.info("User wants to submit Quiz with id {} and his responses {} to get the Results ", id, responsesDtos);
+        Optional<Quiz> quiz = quizRepository.findById(id);
         if (quiz.isEmpty()) {
             logger.warn("Quiz with id {} not found", id);
             throw new RecordNotFoundException("Quiz with id " + id + " not found");
@@ -96,14 +110,14 @@ public class QuizServiceImpl implements QuizService {
         List<Question> questions = quiz.get().getQuestions();
         int right = 0;
         int i = 0;
-        for (Response response : responses) {
+        for (ResponseDto response : responsesDtos) {
             if (response.getResponse().equals(questions.get(i).getRightAnswer())) {
                 right++;
             }
             i++;
         }
 
-        if (responses.size() != questions.size()) {
+        if (responsesDtos.size() != questions.size()) {
             logger.warn("Missing Some responses");
             throw new MissingServletRequestParameterException("The number of responses must match the number of questions.");
         }

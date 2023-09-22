@@ -1,5 +1,6 @@
 package com.sameh.quizapp.model;
 
+import com.sameh.quizapp.dto.QuestionDto;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,4 +15,5 @@ public class Quiz {
     private String title;
     @ManyToMany
     private List<Question>questions;
+
 }
