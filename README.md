@@ -3,7 +3,7 @@ Simple Quiz App API with Spring Boot (JPA , mysql )
 
 # features
 
-# 1- Admin can add questions
+# 1- User can add questions
 # Example : 
 I sent the question information that I want to add in json via postman
 
@@ -11,15 +11,15 @@ I sent the question information that I want to add in json via postman
 The question has been added in the database 
 ![Screenshot (131)](https://github.com/Sameh1Tarek/Quiz-App/assets/108232157/65c19ba9-10a4-4ce5-a907-b5113fe63f87)
 
-# 2- Admin can get all questions
+# 2- User can get all questions
 # Example with postman :
 ![Screenshot (132)](https://github.com/Sameh1Tarek/Quiz-App/assets/108232157/94066b90-ecd0-481a-8bec-d6ed108096a2)
 
-# 3- Admin can see all questions from the same category
+# 3- User can see all questions from the same category
 # Example : with postman
 ![Screenshot (133)](https://github.com/Sameh1Tarek/Quiz-App/assets/108232157/e7655285-db52-4d7e-9062-f0df05024b48)
 
-# 4- Admin can Update and delete questions
+# 4- User can Update and delete questions
 # Example with postman :
 - update this question with id 4 
 ![Screenshot (134)](https://github.com/Sameh1Tarek/Quiz-App/assets/108232157/c750d7c1-4721-4483-8592-0648bac0373f)
