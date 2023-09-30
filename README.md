@@ -1,6 +1,10 @@
 # Quiz-App
 Simple Quiz App API with Spring Boot (JPA , mysql )
 
+# Project Architecture NTier
+![271463980-ecd11189-f496-456e-a713-6a28146b2be3](https://github.com/Sameh1Tarek/Quiz-App/assets/108232157/42429b4a-bbe4-4762-8a7e-0146b8dfc7a4)
+
+
 # features
 
 # 1- User can add questions
