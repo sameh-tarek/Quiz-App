@@ -5,8 +5,6 @@ Simple Quiz App API with Spring Boot (JPA , mysql )
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/28660393-e22fa172-8b92-4e85-953a-59b611a2591f?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D28660393-e22fa172-8b92-4e85-953a-59b611a2591f%26entityType%3Dcollection%26workspaceId%3D68d3dd90-f34f-4cb2-99d2-4fb79454bbb9)
 
-# Project Architecture NTier
-![271463980-ecd11189-f496-456e-a713-6a28146b2be3](https://github.com/Sameh1Tarek/Quiz-App/assets/108232157/42429b4a-bbe4-4762-8a7e-0146b8dfc7a4)
 
 # How to Run
 
@@ -27,6 +25,11 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in keypair.pem -out priv
 ```
 
 4- Build the project to resolve dependencies.
+
+
+# Project Architecture NTier
+![271463980-ecd11189-f496-456e-a713-6a28146b2be3](https://github.com/Sameh1Tarek/Quiz-App/assets/108232157/42429b4a-bbe4-4762-8a7e-0146b8dfc7a4)
+
 
 # features
 
