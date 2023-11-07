@@ -1,7 +1,7 @@
 package com.sameh.quizapp.mappper;
 
 import com.sameh.quizapp.dto.QuestionDto;
-import com.sameh.quizapp.model.Question;
+import com.sameh.quizapp.entity.Question;
 
 public interface QuestionMapper {
 

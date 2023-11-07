@@ -2,12 +2,12 @@ package com.sameh.quizapp.service.impl;
 
 import com.sameh.quizapp.Repository.QuestionRepository;
 import com.sameh.quizapp.Repository.QuizRepository;
+import com.sameh.quizapp.dto.QuestionWrapperDto;
+import com.sameh.quizapp.dto.ResponseDto;
 import com.sameh.quizapp.exception.MissingServletRequestParameterException;
 import com.sameh.quizapp.exception.RecordNotFoundException;
-import com.sameh.quizapp.model.Question;
-import com.sameh.quizapp.model.QuestionWrapper;
-import com.sameh.quizapp.model.Quiz;
-import com.sameh.quizapp.model.Response;
+import com.sameh.quizapp.entity.Question;
+import com.sameh.quizapp.entity.Quiz;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -119,7 +119,7 @@ class QuizServiceImplTest {
 
         when(quizRepository.findById(id)).thenReturn(Optional.of(quiz));
 
-        ResponseEntity<List<QuestionWrapper>> response = quizService.getQuizQuestions(id);
+        ResponseEntity<List<QuestionWrapperDto>> response = quizService.getQuizQuestions(id);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(questionsFromDb.size(), response.getBody().size());
@@ -169,10 +169,10 @@ class QuizServiceImplTest {
         questions.add(question1);
         questions.add(question2);
 
-        List<Response> responses = new ArrayList<>();
-        Response response1 = new Response();
+        List<ResponseDto> responses = new ArrayList<>();
+        ResponseDto response1 = new ResponseDto();
         response1.setResponse("B");
-        Response response2 = new Response();
+        ResponseDto response2 = new ResponseDto();
         response2.setResponse("A");
         responses.add(response1);
         responses.add(response2);
@@ -199,10 +199,10 @@ class QuizServiceImplTest {
         questions.add(question1);
         questions.add(question2);
 
-        List<Response> responses = new ArrayList<>();
-        Response response1 = new Response();
+        List<ResponseDto> responses = new ArrayList<>();
+        ResponseDto response1 = new ResponseDto();
         response1.setResponse("A");
-        Response response2 = new Response();
+        ResponseDto response2 = new ResponseDto();
         response2.setResponse("B");
         responses.add(response1);
         responses.add(response2);

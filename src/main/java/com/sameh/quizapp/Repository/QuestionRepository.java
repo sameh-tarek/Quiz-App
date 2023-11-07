@@ -1,6 +1,6 @@
 package com.sameh.quizapp.Repository;
 
-import com.sameh.quizapp.model.Question;
+import com.sameh.quizapp.entity.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
