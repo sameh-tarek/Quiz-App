@@ -17,6 +17,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -31,28 +33,39 @@ public class SecurityConfiguration {
     private final RsaKeyProperties rsaKeys;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.cors().and()
-                .csrf()
-                .disable()
+    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService){
+        var authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return new ProviderManager(authProvider);
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http)
+
+            throws Exception {
+        return http.cors()
+                .and().csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/**").permitAll()
-                .anyRequest()
-                .authenticated()
+                .requestMatchers("/auth/**")
+                .permitAll()
+                .and().authorizeHttpRequests()
+//                .requestMatchers("/users/**")
+//                .hasAnyAuthority("USER", "ADMIN")
+                .anyRequest().authenticated()
                 .and()
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().formLogin().and().build();
-
+                .and()
+                .build();
     }
 
-    @Bean
-    public AuthenticationManager authManager(UserDetailsService userDetailsService) {
-        var authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
-        return new ProviderManager(authProvider);
-    }
 
     @Bean
     JwtDecoder jwtDecoder(){
@@ -63,7 +76,7 @@ public class SecurityConfiguration {
     JwtEncoder jwtEncoder(){
         JWK jwk = new RSAKey.Builder(rsaKeys.publicKey()).privateKey(rsaKeys.privateKey()).build();
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
-        return new  NimbusJwtEncoder(jwks);
+        return new NimbusJwtEncoder(jwks);
     }
 
 }
