@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public class ResponseDto {
+    //question id
     private Integer id;
+    //question response
     private String response;
 }

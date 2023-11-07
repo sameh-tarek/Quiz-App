@@ -2,7 +2,7 @@ package com.sameh.quizapp.mappper.Impl;
 
 import com.sameh.quizapp.dto.QuizDto;
 import com.sameh.quizapp.mappper.QuizMapper;
-import com.sameh.quizapp.model.Quiz;
+import com.sameh.quizapp.entity.Quiz;
 import org.springframework.stereotype.Component;
 
 @Component

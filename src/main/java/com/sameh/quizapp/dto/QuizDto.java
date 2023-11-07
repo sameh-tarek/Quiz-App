@@ -1,9 +1,7 @@
 package com.sameh.quizapp.dto;
 
-import com.sameh.quizapp.model.Question;
+import com.sameh.quizapp.entity.Question;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 

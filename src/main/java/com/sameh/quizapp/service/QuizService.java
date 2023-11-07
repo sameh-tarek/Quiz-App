@@ -2,8 +2,6 @@ package com.sameh.quizapp.service;
 
 import com.sameh.quizapp.dto.QuestionWrapperDto;
 import com.sameh.quizapp.dto.ResponseDto;
-import com.sameh.quizapp.model.QuestionWrapper;
-import com.sameh.quizapp.model.Response;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
