@@ -6,6 +6,7 @@ import com.sameh.quizapp.exception.DuplicateRecordException;
 import com.sameh.quizapp.mappper.UserMapper;
 import com.sameh.quizapp.model.auth.AuthenticationRequest;
 import com.sameh.quizapp.model.auth.AuthenticationResponse;
+import com.sameh.quizapp.model.user.UserRequestDto;
 import com.sameh.quizapp.security.JWTService;
 import com.sameh.quizapp.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        log.info("user wants to login with this credentials {}", request);
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -60,4 +62,5 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .userName(user.getUserName())
                 .build();
     }
+
 }
