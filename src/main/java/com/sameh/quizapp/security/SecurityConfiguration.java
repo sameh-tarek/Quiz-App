@@ -17,6 +17,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -31,28 +33,36 @@ public class SecurityConfiguration {
     private final RsaKeyProperties rsaKeys;
 
     @Bean
+    PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.cors().and()
                 .csrf()
                 .disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/auth/**").permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
+                .authorizeRequests(authorizeRequests ->
+                        authorizeRequests
+                                .requestMatchers("/auth/**").permitAll()
+                                //.requestMatchers("/question/**").hasAuthority("ADMIN")
+                                .anyRequest().authenticated()
+                )
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().formLogin().and().build();
-
+                .and().build();
     }
+
 
     @Bean
     public AuthenticationManager authManager(UserDetailsService userDetailsService) {
         var authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
         return new ProviderManager(authProvider);
     }
+
 
     @Bean
     JwtDecoder jwtDecoder(){

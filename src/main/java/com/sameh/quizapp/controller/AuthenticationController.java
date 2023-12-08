@@ -1,5 +1,6 @@
 package com.sameh.quizapp.controller;
 
+import com.sameh.quizapp.dto.UserRequestDto;
 import com.sameh.quizapp.model.auth.AuthenticationRequest;
 import com.sameh.quizapp.model.auth.AuthenticationResponse;
 import com.sameh.quizapp.service.AuthenticationService;
@@ -15,7 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
+
     private final AuthenticationService authenticationService;
+
+    @PostMapping("/register")
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody UserRequestDto request) {
+        AuthenticationResponse response = authenticationService.register(request);
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping("/Authentication")
     public ResponseEntity<AuthenticationResponse> authenticate(@Valid @RequestBody AuthenticationRequest request) {
