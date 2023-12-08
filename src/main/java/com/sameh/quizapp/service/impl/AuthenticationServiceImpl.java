@@ -1,6 +1,8 @@
 package com.sameh.quizapp.service.impl;
 
 import com.sameh.quizapp.Repository.UserRepository;
+import com.sameh.quizapp.dto.UserRequestDto;
+import com.sameh.quizapp.exception.DuplicateRecordException;
 import com.sameh.quizapp.mappper.UserMapper;
 import com.sameh.quizapp.model.auth.AuthenticationRequest;
 import com.sameh.quizapp.model.auth.AuthenticationResponse;
@@ -26,23 +28,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
-
     @Override
     public AuthenticationResponse register(UserRequestDto request) {
-            var user = userMapper.toEntity(request);
-            log.info("user wants to register with this information {}", user);
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            userRepository.save(user);
+        var user = userMapper.toEntity(request);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        log.warn("this user want to register: {}", user);
 
+        if(userRepository.findByEmail(user.getEmail()).isPresent()){
+            throw new DuplicateRecordException("this User already exist");
+        }
 
-            var authenticationRequest = AuthenticationRequest.builder()
-                    .email(request.getEmail())
-                    .password(request.getPassword()).build();
-
-            log.info("user wants to Authenticate with this email and password {}", authenticationRequest);
-
-            AuthenticationResponse response = authenticate(authenticationRequest);
-            return response;
+        userRepository.save(user);
+        return authenticate(new AuthenticationRequest(user.getEmail(), request.getPassword()));
     }
 
     @Override

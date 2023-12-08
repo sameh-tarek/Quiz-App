@@ -2,6 +2,7 @@ package com.sameh.quizapp.security.user;
 
 import com.sameh.quizapp.entity.User;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+@Slf4j
 @Data
 public class UserDetailsImpl implements UserDetails {
 
@@ -22,6 +24,7 @@ public class UserDetailsImpl implements UserDetails {
         this.password = user.getPassword();
         this.isEnabled = user.isEnabled();
         this.authorities = List.of(new SimpleGrantedAuthority(user.getRole().name()));
+        log.info("User '{}' has authorities: {}", userName, authorities);
     }
 
 

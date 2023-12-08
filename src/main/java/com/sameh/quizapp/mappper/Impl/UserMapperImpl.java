@@ -1,28 +1,26 @@
 package com.sameh.quizapp.mappper.Impl;
 
+import com.sameh.quizapp.dto.UserRequestDto;
+import com.sameh.quizapp.dto.UserResponseDto;
 import com.sameh.quizapp.entity.User;
-import com.sameh.quizapp.entity.enums.Role;
 import com.sameh.quizapp.mappper.UserMapper;
-import com.sameh.quizapp.model.user.UserRequestDto;
-import com.sameh.quizapp.model.user.UserResponseDto;
 import org.springframework.stereotype.Component;
-
 
 @Component
 public class UserMapperImpl implements UserMapper {
     @Override
-    public User toEntity(UserRequestDto userRequestDTO) {
-        User newUser = new User();
-        newUser.setUserName(userRequestDTO.getUserName());
-        newUser.setPassword(userRequestDTO.getPassword());
-        newUser.setEmail(userRequestDTO.getEmail());
-        newUser.setRole(Role.USER);
-        newUser.setEnabled(true);
-        return newUser;
+    public User toEntity(UserRequestDto userRequestDto) {
+        User user = new User();
+        user.setUserName(userRequestDto.getUserName());
+        user.setEmail(userRequestDto.getEmail());
+        user.setPassword(userRequestDto.getPassword());
+        user.setRole(userRequestDto.getRole());
+        user.setEnabled(true);
+        return user;
     }
 
     @Override
-    public UserResponseDto toDTO(User user) {
+    public UserResponseDto toDto(User user) {
         UserResponseDto newUserResponseDTO = new UserResponseDto();
         newUserResponseDTO.setId(user.getId());
         newUserResponseDTO.setUserName(user.getUserName());
