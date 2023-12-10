@@ -1,9 +1,8 @@
 package com.sameh.quizapp.controller;
 
-import com.sameh.quizapp.dto.UserRequestDto;
+import com.sameh.quizapp.model.user.UserRequestDto;
 import com.sameh.quizapp.model.auth.AuthenticationRequest;
 import com.sameh.quizapp.model.auth.AuthenticationResponse;
-import com.sameh.quizapp.model.user.UserRequestDto;
 import com.sameh.quizapp.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

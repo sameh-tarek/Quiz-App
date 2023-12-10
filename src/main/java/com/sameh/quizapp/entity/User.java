@@ -10,6 +10,8 @@ import java.util.List;
 @Getter
 @Setter
 @Data
+@Table(name = "`user`")
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +29,13 @@ public class User {
     private String password;
 
     private boolean isEnabled = false;
+
+    public User(String userName, Role role, String email, String password, boolean isEnabled) {
+        this.userName = userName;
+        this.role = role;
+        this.email = email;
+        this.password = password;
+        this.isEnabled = isEnabled;
+    }
+
 }

@@ -87,11 +87,6 @@ public class QuestionServiceImpl implements QuestionService {
         Question existingQuestion = questionRepository.findById(id).orElseThrow(()
                 -> new RecordNotFoundException("No question found with ID: " + id));
 
-        if (questionDto.getQuestionTitle() == null) {
-            log.warn("Question title cannot be empty");
-            throw new MissingServletRequestParameterException("Question title cannot be empty");
-        }
-
         Question question = questionMapper.mapToEntity(questionDto);
         questionRepository.save(question);
         if(existingQuestion == question){
@@ -120,4 +115,6 @@ public class QuestionServiceImpl implements QuestionService {
         log.info("Deleted question with ID {}", id);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
+
+
 }

@@ -1,12 +1,11 @@
 package com.sameh.quizapp.service.impl;
 
 import com.sameh.quizapp.Repository.UserRepository;
-import com.sameh.quizapp.dto.UserRequestDto;
+import com.sameh.quizapp.model.user.UserRequestDto;
 import com.sameh.quizapp.exception.DuplicateRecordException;
 import com.sameh.quizapp.mappper.UserMapper;
 import com.sameh.quizapp.model.auth.AuthenticationRequest;
 import com.sameh.quizapp.model.auth.AuthenticationResponse;
-import com.sameh.quizapp.model.user.UserRequestDto;
 import com.sameh.quizapp.security.JWTService;
 import com.sameh.quizapp.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;

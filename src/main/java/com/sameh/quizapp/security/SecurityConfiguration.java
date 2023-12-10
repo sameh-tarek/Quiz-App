@@ -45,7 +45,8 @@ public class SecurityConfiguration {
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/auth/**").permitAll()
-                                //.requestMatchers("/question/**").hasAuthority("ADMIN")
+                                .requestMatchers("/question/**").hasAuthority("SCOPE_ADMIN")
+                                .requestMatchers("/quiz/**").hasAuthority("SCOPE_USER")
                                 .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
