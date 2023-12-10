@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class UserRequestDto {
     private String userName;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     private String email;

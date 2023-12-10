@@ -37,11 +37,6 @@ class QuestionServiceImplTest {
     @InjectMocks
     private QuestionServiceImpl questionService;
 
-    @BeforeEach
-    public void init(){
-        MockitoAnnotations.openMocks(this);
-    }
-
     @DisplayName("Get All Questions")
     @Test
     void shouldGetAllQuestions() {
