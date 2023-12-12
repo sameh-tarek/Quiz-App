@@ -44,6 +44,8 @@ public class SecurityConfiguration {
                 .disable()
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
+                                .requestMatchers("/swagger-ui/**").permitAll()
+                                .requestMatchers("/v3/api-docs").permitAll()
                                 .requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/question/**").hasAuthority("SCOPE_ADMIN")
                                 .requestMatchers("/quiz/**").hasAuthority("SCOPE_USER")

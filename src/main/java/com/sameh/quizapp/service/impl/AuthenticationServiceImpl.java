@@ -1,7 +1,7 @@
 package com.sameh.quizapp.service.impl;
 
 import com.sameh.quizapp.Repository.UserRepository;
-import com.sameh.quizapp.model.user.UserRequestDto;
+import com.sameh.quizapp.dto.user.UserRequestDto;
 import com.sameh.quizapp.exception.DuplicateRecordException;
 import com.sameh.quizapp.mappper.UserMapper;
 import com.sameh.quizapp.model.auth.AuthenticationRequest;

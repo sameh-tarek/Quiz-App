@@ -1,6 +1,6 @@
 package com.sameh.quizapp.controller;
 
-import com.sameh.quizapp.model.user.UserRequestDto;
+import com.sameh.quizapp.dto.user.UserRequestDto;
 import com.sameh.quizapp.model.auth.AuthenticationRequest;
 import com.sameh.quizapp.model.auth.AuthenticationResponse;
 import com.sameh.quizapp.service.AuthenticationService;

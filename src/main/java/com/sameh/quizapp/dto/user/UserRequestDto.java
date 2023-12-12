@@ -1,4 +1,4 @@
-package com.sameh.quizapp.model.user;
+package com.sameh.quizapp.dto.user;
 
 import com.sameh.quizapp.entity.enums.Role;
 import jakarta.persistence.Column;
